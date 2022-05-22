@@ -26,7 +26,7 @@ sh Configure -des                                         \
              -Duseshrplib                                 \
              -Dusethreads
 
-make -j8
+make -j6
 
 make install
 
@@ -44,7 +44,7 @@ cd XML-Parser-2.46
 
 perl Makefile.PL
 
-make -j8 
+make -j6 
 
 make install
 
@@ -62,7 +62,7 @@ sed -i 's:\\\${:\\\$\\{:' intltool-update.in
 
 ./configure --prefix=/usr
 
-make -j8
+make -j6
 
 make install
 
@@ -80,7 +80,7 @@ cd autoconf-2.71
 
 ./configure --prefix=/usr
 
-make -j8
+make -j6
 
 make install
 
@@ -96,7 +96,7 @@ cd automake-1.16.5
 
 ./configure --prefix=/usr --docdir=/usr/share/doc/automake-1.16.5
 
-make -j8
+make -j6
 
 make install
 
@@ -116,7 +116,7 @@ cd openssl-3.0.1
          shared                \
          zlib-dynamic
 
-make -j8
+make -j6
 
 sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
@@ -142,7 +142,7 @@ cd kmod-29
             --with-zstd            \
             --with-zlib
 
-make -j8
+make -j6
 
 make install
 
@@ -166,7 +166,7 @@ cd elfutils-0.186
             --disable-debuginfod         \
             --enable-libdebuginfod=dummy
 
-make -j8
+make -j6
 
 make -C libelf install
 install -vm644 config/libelf.pc /usr/lib/pkgconfig
@@ -187,7 +187,7 @@ cd libffi-3.4.2
             --with-gcc-arch=native \
             --disable-exec-static-tramp
 
-make -j8
+make -j6
 
 make install
 
@@ -208,7 +208,7 @@ cd Python-3.10.2
             --with-ensurepip=yes \
             --enable-optimizations
 
-make -j8
+make -j6
 
 make install
 
@@ -281,7 +281,7 @@ FORCE_UNSAFE_CONFIGURE=1 ./configure \
             --prefix=/usr            \
             --enable-no-install-program=kill,uptime
 
-make -j8 
+make -j6 
 
 make NON_ROOT_USERNAME=tester check-root
 
@@ -311,7 +311,7 @@ cd check-0.15.2
 
 ./configure --prefix=/usr --disable-static
 
-make -j8
+make -j6
 
 meke docdir=/usr/share/doc/check-0.15.2 install
 
@@ -327,7 +327,7 @@ cd diffutils-3.8
 
 ./configure --prefix=/usr
 
-make -j8 
+make -j6 
 
 make install
 
@@ -345,7 +345,7 @@ sed -i 's/extras//' Makefile.in
 
 ./configure --prefix=/usr
 
-make -j8 
+make -j6 
 
 make install
 
@@ -367,7 +367,7 @@ case $(uname -m) in
     x86_64) ./configure --prefix=/usr --localstatedir=/var/lib/locate ;;
 esac
 
-make -j8
+make -j6
 
 chown -Rv tester .
 su tester -c "PATH=$PATH make check"
@@ -402,7 +402,7 @@ cd gzip-1.11
 
 ./configure --prefix=/usr
 
-make -j8 
+make -j6 
 
 make install
 
@@ -419,7 +419,7 @@ cd iproute2-5.16.0
 sed -i /ARPD/d Makefile
 rm -fv man/man8/arpd.8
 
-make -j8
+make -j6
 
 make SBINDIR=/usr/sbin install
 
@@ -443,7 +443,7 @@ sed -i 's/resizecons.8 //' docs/man/man8/Makefile.in
 
 ./configure --prefix=/usr --disable-vlock
 
-make -j8
+make -j6
 
 make install
 
@@ -462,7 +462,7 @@ cd libpipeline-1.5.5
 
 ./configure --prefix=/usr
 
-make -j8
+make -j6
 
 make install
 
@@ -478,7 +478,7 @@ cd make-4.3
 
 ./configure --prefix=/usr
 
-make -j8
+make -j6
 
 make install
 
@@ -492,7 +492,7 @@ cd patch-2.7.6
 
 ./configure --prefix=/usr
 
-make -j8
+make -j6
 
 make install
 
@@ -509,7 +509,7 @@ cd tar-1.34
 FORCE_UNSAFE_CONFIGURE=1  \
 ./configure --prefix=/usr
 
-make -j8
+make -j6
 
 make install
 make -C doc install-html docdir=/usr/share/doc/tar-1.34
@@ -529,7 +529,7 @@ cd texinfo-6.8
 sed -e 's/__attribute_nonnull__/__nonnull/' \
     -i gnulib/lib/malloc/dynarray-skeleton.c
 
-make -j8
+make -j6
 
 make install
 
@@ -541,82 +541,115 @@ rm -rf texinfo-6.8
 
 echo "Done with texinfo"
 
-tar xvf vim-8.2.4383.tar.gz
+tar xvf nano-6.3.tar.xz
 
-cd vim-8.2.4383
+cd nano-6.3
 
-echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
+./configure --prefix=/usr     \
+            --sysconfdir=/etc \
+            --enable-utf8     \
+            --docdir=/usr/share/doc/nano-6.3 &&
+make -j6
 
-./configure --prefix=/usr
-
-make -j8
-
-chown -Rv tester .
-
-su tester -c "LANG=en_US.UTF-8 make -j1 test" &> vim-test.log
-
-make install
-
-ln -sv vim /usr/bin/vi
-for L in  /usr/share/man/{,*/}man1/vim.1; do
-    ln -sv vim.1 $(dirname $L)/vi.1
-done
-
-ln -sv ../vim/vim82/doc /usr/share/doc/vim-8.2.4383
-
-cat > /etc/vimrc << "EOF"
-" Begin /etc/vimrc
-
-" Ensure defaults are set before customizing settings, not after
-source $VIMRUNTIME/defaults.vim
-let skip_defaults_vim=1
-
-set nocompatible
-set backspace=2
-set mouse=
-syntax on
-if (&term == "xterm") || (&term == "putty")
-  set background=dark
-endif
-
-" End /etc/vimrc
-EOF
+make install &&
+install -v -m644 doc/{nano.html,sample.nanorc} /usr/share/doc/nano-6.3
 
 cd /sources
 
-rm -rf vim-8.2.4383
+rm -rf nano-6.3
 
-echo "Done with vim, thank god it sucks"
+tar xvf MarkupSafe-2.0.1.tar.gz
 
-tar xvf eudev-3.2.11.tar.gz
+cd MarkupSafe-2.0.1
 
-cd eudev-3.2.11
+python3 setup.py build
 
-./configure --prefix=/usr           \
-            --bindir=/usr/sbin      \
-            --sysconfdir=/etc       \
-            --enable-manpages       \
-            --disable-static
-
-make -j8
-
-mkdir -pv /usr/lib/udev/rules.d
-mkdir -pv /etc/udev/rules.d
-
-make check
-
-make install
-
-tar -xvf ../udev-lfs-20171102.tar.xz
-make -f udev-lfs-20171102/Makefile.lfs install
-
-udevadm hwdb --update
+python3 setup.py install --optimize=1
 
 cd /sources
 
-rm -rf eudev-3.2.11
+rm -rf MarkupSafe-2.0.1
 
-echo "Done with eudev"
+tar xvf Jinja2-3.0.3.tar.gz
+
+cd Jinja2-3.0.3
+
+python3 setup.py install --optimize=1
+
+cd /sources
+
+rm -rf Jinja2-3.0.3
+
+tar xvf systemd-250.tar.gz
+
+cd systemd-250
+
+patch -Np1 -i ../systemd-250-upstream_fixes-1.patch
+
+sed -i -e 's/GROUP="render"/GROUP="video"/' \
+       -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
+
+mkdir -p build
+cd       build
+
+meson --prefix=/usr                 \
+      --sysconfdir=/etc             \
+      --localstatedir=/var          \
+      --buildtype=release           \
+      -Dblkid=true                  \
+      -Ddefault-dnssec=no           \
+      -Dfirstboot=false             \
+      -Dinstall-tests=false         \
+      -Dldconfig=false              \
+      -Dsysusers=false              \
+      -Db_lto=false                 \
+      -Drpmmacrosdir=no             \
+      -Dhomed=false                 \
+      -Duserdb=false                \
+      -Dman=false                   \
+      -Dmode=release                \
+      -Ddocdir=/usr/share/doc/systemd-250 \
+
+ninja
+
+ninja install
+
+tar -xf ../../systemd-man-pages-250.tar.xz --strip-components=1 -C /usr/share/man
+
+rm -rf /usr/lib/pam.d
+
+systemd-machine-id-setup
+
+systemctl preset-all
+
+cd /sources
+
+rm -rf systemd-250
+
+tar xvf dbus-1.12.20.tar.gz
+
+cd dbus-1.12.20
+
+./configure --prefix=/usr                        \
+            --sysconfdir=/etc                    \
+            --localstatedir=/var                 \
+            --disable-static                     \
+            --disable-doxygen-docs               \
+            --disable-xml-docs                   \
+            --docdir=/usr/share/doc/dbus-1.12.20 \
+            --with-console-auth-dir=/run/console \
+            --with-system-pid-file=/run/dbus/pid \
+            --with-system-socket=/run/dbus/system_bus_socket
+
+make -j6
+
+make install
+
+ln -sfv /etc/machine-id /var/lib/dbus
+
+cd /sources
+
+rm -rf dbus-1.12.20
 
 tar xvf man-db-2.10.1.tar.xz
 
@@ -629,40 +662,31 @@ cd man-db-2.10.1
             --enable-cache-owner=bin              \
             --with-browser=/usr/bin/lynx          \
             --with-vgrind=/usr/bin/vgrind         \
-            --with-grap=/usr/bin/grap             \
-            --with-systemdtmpfilesdir=            \
-            --with-systemdsystemunitdir=
+            --with-grap=/usr/bin/grap
 
-make -j8
+make -j6
 
 make install
 
 cd /sources
 
-rm -rf man-db-2.10.1
-
-echo "Done man-db"
-
 tar xvf procps-ng-3.3.17.tar.xz
-
-procps-ng-3.3.17
 
 cd procps-ng-3.3.17
 
 ./configure --prefix=/usr                            \
             --docdir=/usr/share/doc/procps-ng-3.3.17 \
             --disable-static                         \
-            --disable-kill
+            --disable-kill                           \
+            --with-systemd
 
-make -j8
+make -j6
 
 make install
 
 cd /sources
 
 rm -rf procps-ng-3.3.17
-
-echo "Done with Procps"
 
 tar xvf util-linux-2.37.4.tar.xz
 
@@ -681,19 +705,15 @@ cd util-linux-2.37.4
             --disable-runuser    \
             --disable-pylibmount \
             --disable-static     \
-            --without-python     \
-            --without-systemd    \
-            --without-systemdsystemunitdir
+            --without-python
 
-make -j8
+make -j6
 
 make install
 
 cd /sources
 
 rm -rf util-linux-2.37.4
-
-echo "Done with util-linux"
 
 tar xvf e2fsprogs-1.46.5.tar.gz
 
@@ -710,7 +730,7 @@ cd       build
              --disable-uuidd         \
              --disable-fsck
 
-make -j8
+make -j6
 
 make install
 
@@ -722,56 +742,3 @@ install-info --dir-file=/usr/share/info/dir /usr/share/info/libext2fs.info
 makeinfo -o      doc/com_err.info ../lib/et/com_err.texinfo
 install -v -m644 doc/com_err.info /usr/share/info
 install-info --dir-file=/usr/share/info/dir /usr/share/info/com_err.info
-
-cd /sources
-
-rm -rf e2fsprogs
-
-echo "Done with e2fsprogs"
-
-tar xvf sysklogd-1.5.1.tar.gz
-
-cd sysklogd-1.5.1
-
-sed -i '/Error loading kernel symbols/{n;n;d}' ksym_mod.c
-sed -i 's/union wait/int/' syslogd.c
-
-make -j8
-
-make BINDIR=/sbin install
-
-cat > /etc/syslog.conf << "EOF"
-# Begin /etc/syslog.conf
-
-auth,authpriv.* -/var/log/auth.log
-*.*;auth,authpriv.none -/var/log/sys.log
-daemon.* -/var/log/daemon.log
-kern.* -/var/log/kern.log
-mail.* -/var/log/mail.log
-user.* -/var/log/user.log
-*.emerg *
-
-# End /etc/syslog.conf
-EOF
-
-cd /sources
-
-rm -rf sysklogd-1.5.1
-
-echo "Done with sysklogd"
-
-tar xvf sysvinit-3.01.tar.xz
-
-cd sysvinit-3.01
-
-patch -Np1 -i ../sysvinit-3.01-consolidated-1.patch
-
-make -j8
-
-make install
-
-cd /sources
-
-rm -rf sysvinit-3.01
-
-echo "Done with sysvinit"

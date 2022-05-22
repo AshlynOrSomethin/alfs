@@ -44,7 +44,7 @@ echo "rootsbindir=/usr/sbin" > configparms
              --with-headers=/usr/include              \
              libc_cv_slibdir=/usr/lib
 
-make -j8
+make -j6
 
 touch /etc/ld.so.conf
 
@@ -158,7 +158,7 @@ cd zlib-1.2.11
 
 ./configure --prefix=/usr
 
-make -j8
+make -j6
 
 make install
 
@@ -183,7 +183,7 @@ sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
 make -f Makefile-libbz2_so
 make clean
 
-make -j8
+make -j6
 
 make PREFIX=/usr install
 
@@ -211,7 +211,7 @@ cd xz-5.2.5
             --disable-static \
             --docdir=/usr/share/doc/xz-5.2.5
 
-make -j8
+make -j6
 
 make install
 
@@ -223,7 +223,7 @@ tar xvf zstd-1.5.2.tar.gz
 
 cd zstd-1.5.2
 
-make -j8
+make -j6
 
 make prefix=/usr install
 
@@ -239,7 +239,7 @@ cd file-5.41
 
 ./configure --prefix=/usr
 
-make -j8
+make -j6
 
 make install
 
@@ -275,7 +275,7 @@ cd m4-1.4.19
 
 ./configure --prefix=/usr
 
-make -j8
+make -j6
 
 make install
 
@@ -289,7 +289,7 @@ cd bc-5.2.2
 
 CC=gcc ./configure --prefix=/usr -G -O3
 
-make -j8
+make -j6
 
 make install
 
@@ -305,7 +305,7 @@ cd flex-2.6.4
             --docdir=/usr/share/doc/flex-2.6.4 \
             --disable-static
 
-make -j8
+make -j6
 
 make install
 
@@ -327,7 +327,7 @@ cd unix
             --mandir=/usr/share/man \
             $([ "$(uname -m)" = x86_64 ] && echo --enable-64bit)
 
-make -j8
+make -j6
 
 sed -e "s|$SRCDIR/unix|/usr/lib|" \
     -e "s|$SRCDIR|/usr/include|"  \
@@ -372,7 +372,7 @@ cd expect5.45.4
             --mandir=/usr/share/man \
             --with-tclinclude=/usr/include
 
-make -j8
+make -j6
 
 make install
 ln -svf expect5.45.4/libexpect5.45.4.so /usr/lib
@@ -423,7 +423,7 @@ cd       build
              --enable-64-bit-bfd \
              --with-system-zlib
 
-make -j8 tooldir=/usr
+make -j6 tooldir=/usr
 
 make -k check
 
@@ -444,7 +444,7 @@ cd gmp-6.2.1
             --disable-static \
             --docdir=/usr/share/doc/gmp-6.2.1
 
-make -j8
+make -j6
 
 make html
 
@@ -468,7 +468,7 @@ cd mpfr-4.1.0
             --enable-thread-safe \
             --docdir=/usr/share/doc/mpfr-4.1.0
 
-make -j8
+make -j6
 make html
 
 make check
@@ -488,7 +488,7 @@ cd mpc-1.2.1
             --disable-static \
             --docdir=/usr/share/doc/mpc-1.2.1
 
-make -j8
+make -j6
 make html
 
 make install
@@ -507,7 +507,7 @@ cd attr-2.5.1
             --sysconfdir=/etc \
             --docdir=/usr/share/doc/attr-2.5.1
 
-make -j8
+make -j6
 
 make install
 
@@ -523,7 +523,7 @@ cd acl-2.3.1
             --disable-static      \
             --docdir=/usr/share/doc/acl-2.3.1
 
-make -j8
+make -j6
 
 make install
 
@@ -537,7 +537,7 @@ cd libcap-2.63
 
 sed -i '/install -m.*STA/d' libcap/Makefile
 
-make -j8 prefix=/usr lib=lib
+make -j6 prefix=/usr lib=lib
 
 make prefix=/usr lib=lib install
 
@@ -564,7 +564,7 @@ touch /usr/bin/passwd
             --disable-static  \
             --with-group-name-max-length=32
 
-make -j8 make exec_prefix=/usr install
+make -j6 make exec_prefix=/usr install
 make -C man install-man
 
 pwconv
@@ -605,7 +605,7 @@ cd       build
              --disable-bootstrap      \
              --with-system-zlib
 
-make -j8
+make -j6
 
 ulimit -s 32768
 
@@ -655,7 +655,7 @@ cd pkg-config-0.29.2
             --disable-host-tool        \
             --docdir=/usr/share/doc/pkg-config-0.29.2
 
-make -j8
+make -j6
 
 make install
 
@@ -676,7 +676,7 @@ cd ncurses-6.3
             --enable-widec          \
             --with-pkg-config-libdir=/usr/lib/pkgconfig
 
-make -j8
+make -j6
 
 make DESTDIR=$PWD/dest install
 install -vm755 dest/usr/lib/libncursesw.so.6.3 /usr/lib
@@ -716,7 +716,7 @@ cd sed-4.8
 
 ./configure --prefix=/usr
 
-make -j8
+make -j6
 make html
 
 make install
@@ -733,7 +733,7 @@ cd psmisc-23.4
 
 ./configure --prefix=/usr
 
-make -j8
+make -j6
 
 make install
 
@@ -749,7 +749,7 @@ cd gettext-0.21
             --disable-static \
             --docdir=/usr/share/doc/gettext-0.21
 
-make -j8
+make -j6
 
 make install
 chmod -v 0755 /usr/lib/preloadable_libintl.so
@@ -764,7 +764,7 @@ cd bison-3.8.2
 
 ./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.8.2
 
-make -j8
+make -j6
 
 make install
 
@@ -778,7 +778,7 @@ cd grep-3.7
 
 ./configure --prefix=/usr
 
-make -j8
+make -j6
 
 make install
 
@@ -795,7 +795,7 @@ cd bash-5.1.16
             --without-bash-malloc              \
             --with-installed-readline
 
-make -j8
+make -j6
 
 make install
 
@@ -811,7 +811,7 @@ cd libtool-2.4.6
 
 ./configure --prefix=/usr
 
-make -j8
+make -j6
 
 make install
 
@@ -829,7 +829,7 @@ cd gdbm-1.23
             --disable-static \
             --enable-libgdbm-compat
 
-make -j8
+make -j6
 
 make install
 
@@ -843,7 +843,7 @@ cd gperf-3.1
 
 ./configure --prefix=/usr --docdir=/usr/share/doc/gperf-3.1
 
-make -j8
+make -j6
 
 make install
 
@@ -859,7 +859,7 @@ cd expat-2.4.6
             --disable-static \
             --docdir=/usr/share/doc/expat-2.4.6
 
-make -j8
+make -j6
 
 make install
 
@@ -884,7 +884,7 @@ cd inetutils-2.2
             --disable-rsh        \
             --disable-servers
 
-make -j8
+make -j6
 
 make install
 
@@ -900,7 +900,7 @@ cd less-590
 
 ./configure --prefix=/usr --sysconfdir=/etc
 
-make -j8
+make -j6
 
 make install
 
